@@ -1,0 +1,535 @@
+{
+  "venue": "Royal Blackrock, Australia",
+  "startDate": "2026-10-19",
+  "endDate": "2026-10-25",
+  "par": 72,
+  "isSig": false,
+  "players": [
+    {
+      "name": "Colly45x",
+      "console": "Xbox",
+      "r1": "66",
+      "r2": "65",
+      "total": 131,
+      "ldYardage": "356.7",
+      "girVal": "",
+      "numLd": 356.7,
+      "numGir": 0,
+      "toParVal": -13
+    },
+    {
+      "name": "x3offthetee",
+      "console": "Xbox",
+      "r1": "64",
+      "r2": "68",
+      "total": 132,
+      "ldYardage": "",
+      "girVal": "12",
+      "numLd": 0,
+      "numGir": 12,
+      "toParVal": -12
+    },
+    {
+      "name": "GbWaCkErGuY",
+      "console": "Xbox",
+      "r1": "68",
+      "r2": "66",
+      "total": 134,
+      "ldYardage": "365",
+      "girVal": "",
+      "numLd": 365,
+      "numGir": 0,
+      "toParVal": -10
+    },
+    {
+      "name": "Cockatoos",
+      "console": "PC",
+      "r1": "66",
+      "r2": "69",
+      "total": 135,
+      "ldYardage": "",
+      "girVal": "",
+      "numLd": 0,
+      "numGir": 0,
+      "toParVal": -9
+    },
+    {
+      "name": "Demonondalinks",
+      "console": "Xbox",
+      "r1": "71",
+      "r2": "66",
+      "total": 137,
+      "ldYardage": "",
+      "girVal": "14",
+      "numLd": 0,
+      "numGir": 14,
+      "toParVal": -7
+    },
+    {
+      "name": "Keep_of_Kalessin",
+      "console": "PS",
+      "r1": "71",
+      "r2": "68",
+      "total": 139,
+      "ldYardage": "",
+      "girVal": "",
+      "numLd": 0,
+      "numGir": 0,
+      "toParVal": -5
+    }
+  ],
+  "backupSeason": {
+    "Colly45x": {
+      "points": 1000,
+      "console": "Xbox",
+      "eventsPlayed": 2,
+      "wins": 2,
+      "acc": -26,
+      "form": [
+        1,
+        1
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 131,
+          "toPar": -13,
+          "pos": "1"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 131,
+          "toPar": -13,
+          "pos": "1"
+        }
+      ],
+      "bestToPar": -13,
+      "bestTotal": 131,
+      "prevRank": 1,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    },
+    "x3offthetee": {
+      "points": 700,
+      "console": "Xbox",
+      "eventsPlayed": 2,
+      "wins": 0,
+      "acc": -24,
+      "form": [
+        2,
+        2
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 132,
+          "toPar": -12,
+          "pos": "2"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 132,
+          "toPar": -12,
+          "pos": "2"
+        }
+      ],
+      "bestToPar": -12,
+      "bestTotal": 132,
+      "prevRank": 2,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    },
+    "GbWaCkErGuY": {
+      "points": 480,
+      "console": "Xbox",
+      "eventsPlayed": 2,
+      "wins": 0,
+      "acc": -20,
+      "form": [
+        3,
+        3
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 134,
+          "toPar": -10,
+          "pos": "3"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 134,
+          "toPar": -10,
+          "pos": "3"
+        }
+      ],
+      "bestToPar": -10,
+      "bestTotal": 134,
+      "prevRank": 3,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    },
+    "Cockatoos": {
+      "points": 270,
+      "console": "PC",
+      "eventsPlayed": 2,
+      "wins": 0,
+      "acc": -18,
+      "form": [
+        4,
+        4
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 135,
+          "toPar": -9,
+          "pos": "4"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 135,
+          "toPar": -9,
+          "pos": "4"
+        }
+      ],
+      "bestToPar": -9,
+      "bestTotal": 135,
+      "prevRank": 4,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    },
+    "Demonondalinks": {
+      "points": 220,
+      "console": "Xbox",
+      "eventsPlayed": 2,
+      "wins": 0,
+      "acc": -14,
+      "form": [
+        5,
+        5
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 137,
+          "toPar": -7,
+          "pos": "5"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 137,
+          "toPar": -7,
+          "pos": "5"
+        }
+      ],
+      "bestToPar": -7,
+      "bestTotal": 137,
+      "prevRank": 5,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    },
+    "Keep_of_Kalessin": {
+      "points": 200,
+      "console": "PS",
+      "eventsPlayed": 2,
+      "wins": 0,
+      "acc": -10,
+      "form": [
+        6,
+        6
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 139,
+          "toPar": -5,
+          "pos": "6"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 139,
+          "toPar": -5,
+          "pos": "6"
+        }
+      ],
+      "bestToPar": -5,
+      "bestTotal": 139,
+      "prevRank": 6,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25"
+    }
+  },
+  "backupHistory": "<div class=\"history-header\" onclick=\"toggleHistory(this)\">The Old Tom Cup, Moray (Old)-Scotland (2026-10-19 to 2026-10-25) </div><div class=\"history-content\"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr><tr><td>1</td><td>Colly45x</td><td>-13</td><td>131</td></tr><tr><td>2</td><td>x3offthetee</td><td>-12</td><td>132</td></tr><tr><td>3</td><td>GbWaCkErGuY</td><td>-10</td><td>134</td></tr><tr><td>4</td><td>Cockatoos</td><td>-9</td><td>135</td></tr><tr><td>5</td><td>Demonondalinks</td><td>-7</td><td>137</td></tr><tr><td>6</td><td>Keep_of_Kalessin</td><td>-5</td><td>139</td></tr></table></div><div class=\"history-header\" onclick=\"toggleHistory(this)\">The Old Tom Cup, Moray (Old)-Scotland (2026-10-19 to 2026-10-25) </div><div class=\"history-content\"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr><tr><td>1</td><td>Colly45x</td><td>-13</td><td>131</td></tr><tr><td>2</td><td>x3offthetee</td><td>-12</td><td>132</td></tr><tr><td>3</td><td>GbWaCkErGuY</td><td>-10</td><td>134</td></tr><tr><td>4</td><td>Cockatoos</td><td>-9</td><td>135</td></tr><tr><td>5</td><td>Demonondalinks</td><td>-7</td><td>137</td></tr><tr><td>6</td><td>Keep_of_Kalessin</td><td>-5</td><td>139</td></tr></table></div>",
+  "date": "2026-10-19 to 2026-10-25",
+  "season": {
+    "Colly45x": {
+      "points": 1500,
+      "console": "Xbox",
+      "eventsPlayed": 3,
+      "wins": 3,
+      "acc": -39,
+      "form": [
+        1,
+        1,
+        1
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 131,
+          "toPar": -13,
+          "pos": "1"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 131,
+          "toPar": -13,
+          "pos": "1"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 131,
+          "toPar": -13,
+          "pos": "1"
+        }
+      ],
+      "bestToPar": -13,
+      "bestTotal": 131,
+      "prevRank": 1,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "maxLd": 356.7,
+      "totalGir": 0,
+      "earnings": 360000
+    },
+    "x3offthetee": {
+      "points": 1000,
+      "console": "Xbox",
+      "eventsPlayed": 3,
+      "wins": 0,
+      "acc": -36,
+      "form": [
+        2,
+        2,
+        2
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 132,
+          "toPar": -12,
+          "pos": "2"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 132,
+          "toPar": -12,
+          "pos": "2"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 132,
+          "toPar": -12,
+          "pos": "2"
+        }
+      ],
+      "bestToPar": -12,
+      "bestTotal": 132,
+      "prevRank": 2,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "totalGir": 12,
+      "earnings": 218000
+    },
+    "GbWaCkErGuY": {
+      "points": 720,
+      "console": "Xbox",
+      "eventsPlayed": 3,
+      "wins": 0,
+      "acc": -30,
+      "form": [
+        3,
+        3,
+        3
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 134,
+          "toPar": -10,
+          "pos": "3"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 134,
+          "toPar": -10,
+          "pos": "3"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 134,
+          "toPar": -10,
+          "pos": "3"
+        }
+      ],
+      "bestToPar": -10,
+      "bestTotal": 134,
+      "prevRank": 3,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "maxLd": 365,
+      "totalGir": 0,
+      "earnings": 138000
+    },
+    "Cockatoos": {
+      "points": 405,
+      "console": "PC",
+      "eventsPlayed": 3,
+      "wins": 0,
+      "acc": -27,
+      "form": [
+        4,
+        4,
+        4
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 135,
+          "toPar": -9,
+          "pos": "4"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 135,
+          "toPar": -9,
+          "pos": "4"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 135,
+          "toPar": -9,
+          "pos": "4"
+        }
+      ],
+      "bestToPar": -9,
+      "bestTotal": 135,
+      "prevRank": 4,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "totalGir": 0,
+      "earnings": 98000
+    },
+    "Demonondalinks": {
+      "points": 380,
+      "console": "Xbox",
+      "eventsPlayed": 3,
+      "wins": 0,
+      "acc": -21,
+      "form": [
+        5,
+        5,
+        5
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 137,
+          "toPar": -7,
+          "pos": "5"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 137,
+          "toPar": -7,
+          "pos": "5"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 137,
+          "toPar": -7,
+          "pos": "5"
+        }
+      ],
+      "bestToPar": -7,
+      "bestTotal": 137,
+      "prevRank": 5,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "totalGir": 14,
+      "earnings": 82000
+    },
+    "Keep_of_Kalessin": {
+      "points": 300,
+      "console": "PS",
+      "eventsPlayed": 3,
+      "wins": 0,
+      "acc": -15,
+      "form": [
+        6,
+        6,
+        6
+      ],
+      "history": [
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "Royal Blackrock, Australia",
+          "gross": 139,
+          "toPar": -5,
+          "pos": "6"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 139,
+          "toPar": -5,
+          "pos": "6"
+        },
+        {
+          "date": "2026-10-19 to 2026-10-25",
+          "venue": "The Old Tom Cup, Moray (Old)-Scotland",
+          "gross": 139,
+          "toPar": -5,
+          "pos": "6"
+        }
+      ],
+      "bestToPar": -5,
+      "bestTotal": 139,
+      "prevRank": 6,
+      "bestVenue": "The Old Tom Cup, Moray (Old)-Scotland",
+      "bestDate": "2026-10-19 to 2026-10-25",
+      "totalGir": 0,
+      "earnings": 72500
+    }
+  },
+  "history": "<div class=\"history-header\" onclick=\"toggleHistory(this)\">The Old Tom Cup, Moray (Old)-Scotland (2026-10-19 to 2026-10-25) </div><div class=\"history-content\"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr><tr><td>1</td><td>Colly45x</td><td>-13</td><td>131</td></tr><tr><td>2</td><td>x3offthetee</td><td>-12</td><td>132</td></tr><tr><td>3</td><td>GbWaCkErGuY</td><td>-10</td><td>134</td></tr><tr><td>4</td><td>Cockatoos</td><td>-9</td><td>135</td></tr><tr><td>5</td><td>Demonondalinks</td><td>-7</td><td>137</td></tr><tr><td>6</td><td>Keep_of_Kalessin</td><td>-5</td><td>139</td></tr></table></div><div class=\"history-header\" onclick=\"toggleHistory(this)\">The Old Tom Cup, Moray (Old)-Scotland (2026-10-19 to 2026-10-25) </div><div class=\"history-content\"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr><tr><td>1</td><td>Colly45x</td><td>-13</td><td>131</td></tr><tr><td>2</td><td>x3offthetee</td><td>-12</td><td>132</td></tr><tr><td>3</td><td>GbWaCkErGuY</td><td>-10</td><td>134</td></tr><tr><td>4</td><td>Cockatoos</td><td>-9</td><td>135</td></tr><tr><td>5</td><td>Demonondalinks</td><td>-7</td><td>137</td></tr><tr><td>6</td><td>Keep_of_Kalessin</td><td>-5</td><td>139</td></tr></table></div><div class=\"history-header\" onclick=\"toggleHistory(this)\">Royal Blackrock, Australia (2026-10-19 to 2026-10-25) </div><div class=\"history-content\"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr><tr><td>1</td><td>Colly45x</td><td>-13</td><td>131</td></tr><tr><td>2</td><td>x3offthetee</td><td>-12</td><td>132</td></tr><tr><td>3</td><td>GbWaCkErGuY</td><td>-10</td><td>134</td></tr><tr><td>4</td><td>Cockatoos</td><td>-9</td><td>135</td></tr><tr><td>5</td><td>Demonondalinks</td><td>-7</td><td>137</td></tr><tr><td>6</td><td>Keep_of_Kalessin</td><td>-5</td><td>139</td></tr></table></div>",
+  "purse": 2000000
+}
