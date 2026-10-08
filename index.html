@@ -21,31 +21,30 @@
         }
 
         body { 
-			font-family: 'Segoe UI', sans-serif; 
-			background-color: var(--emerald-bg); 
-			margin: 0; 
-			font-size: 14px; 
-			color: #1a3326; 
-			position: relative;
-			min-height: 100vh;
-		}
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--emerald-bg); 
+            margin: 0; 
+            font-size: 14px; 
+            color: #1a3326; 
+            position: relative;
+            min-height: 100vh;
+        }
 
-		/* Fixed background image pseudo-element with 30% opacity */
-		body::before {
-			content: "";
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-image: url('background.jpg'); /* Ensure filename matches your image */
-			background-size: cover;
-			background-position: center bottom;
-			background-repeat: no-repeat;
-			opacity: 0.3;
-			z-index: -1; /* Placed behind all page content */
-			pointer-events: none;
-		}
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            opacity: 0.25;
+            z-index: -1;
+            pointer-events: none;
+        }
         
         .league-banner { 
             background: linear-gradient(135deg, var(--emerald-dark), var(--emerald-primary)); 
@@ -55,7 +54,7 @@
         }
         .league-logo { width: 100%; height: auto; display: block; }
         
-        .main-content { width: 95%; max-width: 1100px; margin: 20px auto; padding-bottom: 50px; }
+        .main-content { width: 95%; max-width: 1150px; margin: 20px auto; padding-bottom: 50px; }
         
         .section-header { 
             padding: 15px 20px; 
@@ -82,18 +81,12 @@
         th { background: var(--emerald-primary); color: white; padding: 12px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px 8px; border-bottom: 1px solid #e1efe8; text-align: center; }
         
-        /* Platform & Name Columns */
         .icon-col { width: 30px; text-align: center; padding-right: 0; }
         .player-col { text-align: left !important; padding-left: 8px; font-weight: 600; color: var(--emerald-dark); white-space: nowrap; }
+        .stat-col-fixed { width: 120px; min-width: 120px; background: var(--emerald-dark); }
         
-        .stat-col-fixed { width: 130px; min-width: 130px; background: var(--emerald-dark); }
-        
-        /* Bold-only highlight for winning stat numbers */
-        .stat-winner {
-            font-weight: 800 !important;
-            font-size: 1.05em;
-            color: var(--emerald-dark) !important;
-        }
+        .stat-winner { font-weight: 800 !important; font-size: 1.05em; color: var(--emerald-dark) !important; }
+        .prize-cell { color: #2e7d32; font-weight: bold; }
 
         .player-link { 
             color: var(--emerald-dark); 
@@ -195,6 +188,7 @@
                     <th class="stat-col-fixed">Greens in Reg</th>
                     <th style="background:var(--emerald-dark);">Bonus Pts</th>
                     <th>Pts</th>
+                    <th style="background:#1b5e20;">Prize (v$)</th>
                 </tr>
             </thead>
             <tbody id="liveBody"></tbody>
@@ -214,6 +208,7 @@
                     <th>Wins</th>
                     <th>ACC</th>
                     <th>Points</th>
+                    <th>Total Earnings (v$)</th>
                 </tr>
             </thead>
             <tbody id="seasonBody"></tbody>
@@ -236,8 +231,9 @@
                 <div class="stat-box"><div class="stat-label">Won</div><div id="modalWins" class="stat-value">0</div></div>
                 <div class="stat-box"><div class="stat-label">Accumulated</div><div id="modalAcc" class="stat-value">E</div></div>
                 <div class="stat-box"><div class="stat-label">Season Pts</div><div id="modalPts" class="stat-value">0</div></div>
+                <div class="stat-box"><div class="stat-label">Total Earnings</div><div id="modalEarnings" class="stat-value" style="color:#2e7d32;">v$0</div></div>
                 <div class="stat-box"><div class="stat-label">Total Season GIR</div><div id="modalTotalGir" class="stat-value">0</div></div>
-                <div class="stat-box"><div class="stat-label">Max Longest Drive</div><div id="modalMaxLd" class="stat-value">--</div></div>
+                <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">Max Longest Drive</div><div id="modalMaxLd" class="stat-value">--</div></div>
             </div>
             
             <div class="best-score-box">
@@ -289,21 +285,43 @@
         31:35, 32:33, 33:31, 34:29, 35:27, 36:26, 37:25, 38:24, 39:23, 40:22
     };
 
+    // Official PGA Tour Payout Percentages Schedule (Positions 1 to 40)
+    const payoutPercentages = {
+        1: 0.180, 2: 0.109, 3: 0.069, 4: 0.049, 5: 0.041, 6: 0.03625, 7: 0.03375, 8: 0.03125, 9: 0.02925, 10: 0.02725,
+        11: 0.02525, 12: 0.02325, 13: 0.02125, 14: 0.01925, 15: 0.01825, 16: 0.01725, 17: 0.01625, 18: 0.01525, 19: 0.01425, 20: 0.01325,
+        21: 0.01225, 22: 0.01125, 23: 0.01045, 24: 0.00965, 25: 0.00885, 26: 0.00805, 27: 0.00775, 28: 0.00745, 29: 0.00715, 30: 0.00685,
+        31: 0.00655, 32: 0.00625, 33: 0.00595, 34: 0.00570, 35: 0.00545, 36: 0.00520, 37: 0.00495, 38: 0.00475, 39: 0.00455, 40: 0.00435
+    };
+
     function getSinglePositionPts(pos, isSig) {
         const table = isSig ? sigPtsTable : stdPtsTable;
         if (table[pos] !== undefined) return table[pos];
         return Math.max(1, (isSig ? 22 : 16) - (pos - 40));
     }
 
-    function calculatePtsSplit(firstRank, tiedCount, isSig, ldBonusVal, girBonusVal) {
+    function calculatePtsSplit(firstRank, tiedCount, isSig, ldBonus, girBonus) {
         let sum = 0;
         for (let r = firstRank; r < firstRank + tiedCount; r++) {
             sum += getSinglePositionPts(r, isSig);
         }
         let baseAvg = sum / tiedCount;
-        let bonus = ldBonusVal + girBonusVal;
+        let bonus = ldBonus + girBonus;
         let total = baseAvg + bonus;
         return { total: Math.round(total * 10) / 10, bonusVal: bonus };
+    }
+
+    function calculatePrizeSplit(firstRank, tiedCount, purse) {
+        if (!purse || purse <= 0) return 0;
+        let pctSum = 0;
+        for (let r = firstRank; r < firstRank + tiedCount; r++) {
+            pctSum += payoutPercentages[r] || 0.003;
+        }
+        let avgPct = pctSum / tiedCount;
+        return Math.round(purse * avgPct);
+    }
+
+    function formatCurrency(val) {
+        return "v$" + (val || 0).toLocaleString();
     }
 
     async function loadLeaderboard() {
@@ -313,8 +331,11 @@
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
+            
+            const purseVal = parseFloat(data.purse) || 1000000;
             document.getElementById('venueName').innerText = `⛳ ${data.venue || 'Season Event'}`;
-            document.getElementById('eventDateLabel').innerText = data.date || '';
+            document.getElementById('eventDateLabel').innerText = `${data.date || ''} • Purse: ${formatCurrency(purseVal)}`;
+            
             const headerBar = document.getElementById('headerBar');
             if(data.isSig) {
                 headerBar.classList.add('is-major');
@@ -344,6 +365,7 @@
         const lBody = document.getElementById('liveBody');
         lBody.innerHTML = '';
         const par = parseInt(data.par) || 72;
+        const purse = parseFloat(data.purse) || 1000000;
         
         let players = data.players.map(p => {
             const s = [p.r1, p.r2].map(v => parseInt(v)||0).filter(v => v > 0);
@@ -353,7 +375,6 @@
             return { ...p, total, toPar: s.length > 0 ? total - (s.length * par) : 999, active: s.length, numLd, numGir };
         }).sort((a,b) => a.toPar - b.toPar);
 
-        // Calculate max Longest Drive & max GIR across active players
         let maxLd = 0;
         let maxGir = 0;
         players.forEach(p => {
@@ -389,6 +410,7 @@
             let girDisplay = p.numGir > 0 ? p.numGir : '-';
 
             const ptsData = calculatePtsSplit(firstIdx + 1, tiedCount, data.isSig, ldBonusVal, girBonusVal);
+            const prizeMoney = calculatePrizeSplit(firstIdx + 1, tiedCount, purse);
             const toParDisp = p.toPar === 0 ? "E" : (p.toPar > 0 ? `+${p.toPar}` : p.toPar);
             
             lBody.innerHTML += `<tr>
@@ -403,6 +425,7 @@
                 <td class="${isGirWinner ? 'stat-winner' : ''}">${girDisplay}</td>
                 <td style="color:var(--emerald-dark); font-weight:bold;">${ptsData.bonusVal > 0 ? `+${Math.round(ptsData.bonusVal * 10) / 10}` : '-'}</td>
                 <td style="color:var(--emerald-dark); font-weight:bold;">${ptsData.total}</td>
+                <td class="prize-cell">${formatCurrency(prizeMoney)}</td>
             </tr>`;
         });
     }
@@ -433,6 +456,7 @@
                 <td style="font-weight:bold; color:var(--under-red);">${p.wins || 0}</td>
                 <td class="${accVal < 0 ? 'under-par' : ''}">${accDisp}</td>
                 <td style="color:var(--emerald-dark); font-weight:bold;">${Math.round((p.points || 0) * 10) / 10}</td>
+                <td class="prize-cell">${formatCurrency(p.earnings || 0)}</td>
             </tr>`;
         });
     }
@@ -449,6 +473,7 @@
         const accVal = p.acc || 0;
         document.getElementById('modalAcc').innerText = accVal === 0 ? "E" : (accVal > 0 ? `+${accVal}` : accVal);
         document.getElementById('modalPts').innerText = Math.round((p.points || 0) * 10) / 10;
+        document.getElementById('modalEarnings').innerText = formatCurrency(p.earnings || 0);
 
         const maxLdVal = p.maxLd || 0;
         document.getElementById('modalMaxLd').innerText = maxLdVal > 0 ? `${maxLdVal.toFixed(1)} yds` : '--';
