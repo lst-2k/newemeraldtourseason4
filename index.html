@@ -2,275 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Leaderboard</title>
+    <title>League Admin - Tournament Manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { 
-            --emerald-primary: #00a86b; 
+        :root {
+            --emerald-primary: #00a86b;
             --emerald-dark: #007a4d;
-            --emerald-light: #20c997;
             --emerald-bg: #e6f7f0;
-            --gold-accent: #ffd700; 
-            --silver-accent: #c0c0c0;
-            --bronze-accent: #cd7f32;
-            --ps-blue: #00439c; 
-            --xbox-green: #107c10; 
-            --steam-blue: #171d25; 
-            --under-red: #d9534f; 
         }
-
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: var(--emerald-bg); 
-            margin: 0; 
-            font-size: 14px; 
-            color: #1a3326; 
-            position: relative;
-            min-height: 100vh;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center bottom;
-            background-repeat: no-repeat;
-            opacity: 0.25;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .league-banner { 
-            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald-primary)); 
-            text-align: center; 
-            border-bottom: 4px solid var(--gold-accent); 
-            width: 100%; 
-        }
-        .league-logo { width: 100%; height: auto; display: block; }
-        
-        .main-content { width: 95%; max-width: 1150px; margin: 20px auto; padding-bottom: 50px; }
-        
-        .section-header { 
-            padding: 15px 20px; 
-            background: #fff; 
-            border-radius: 8px 8px 0 0;
-            border-bottom: 3px solid var(--emerald-primary); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .section-header.is-major { 
-            background: linear-gradient(135deg, var(--emerald-dark), #004d31); 
-            color: white; 
-            border-bottom: 4px solid var(--gold-accent); 
-        }
-        
-        #venueName { margin: 0; font-size: 1.4em; font-weight: 800; color: var(--emerald-dark); }
-        .is-major #venueName { color: #fff; }
-        .major-tag { background: var(--gold-accent); color: #000; padding: 4px 12px; border-radius: 4px; font-size: 0.75em; font-weight: 900; letter-spacing: 1px; }
-        
-        .scroller { width: 100%; overflow-x: auto; background: white; margin-bottom: 25px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-        th { background: var(--emerald-primary); color: white; padding: 12px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        td { padding: 12px 8px; border-bottom: 1px solid #e1efe8; text-align: center; }
-        
-        .icon-col { width: 30px; text-align: center; padding-right: 0; }
-        .player-col { text-align: left !important; padding-left: 8px; font-weight: 600; color: var(--emerald-dark); white-space: nowrap; }
-        .stat-col-fixed { width: 120px; min-width: 120px; background: var(--emerald-dark); }
-        
-        .stat-winner { font-weight: 800 !important; font-size: 1.05em; color: var(--emerald-dark) !important; }
-        .prize-cell { color: #2e7d32; font-weight: bold; }
-
-        .player-link { 
-            color: var(--emerald-dark); 
-            text-decoration: underline; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: color 0.15s ease-in-out;
-        }
-        .player-link:hover { color: var(--emerald-primary); }
-        
-        .fa-brands { font-size: 1.1em; vertical-align: middle; }
-        .fa-playstation { color: var(--ps-blue); } 
-        .fa-xbox { color: var(--xbox-green); } 
-        .fa-steam { color: var(--steam-blue); }
-        
-        .to-par-cell { font-weight: 900; background: #f4fbf7; }
-        .under-par { color: var(--under-red); font-weight: bold; }
-        .even-par { color: var(--emerald-primary); font-weight: bold; }
-        
-        .rank-up { color: #2e7d32; }
-        .rank-down { color: #c62828; }
-        
-        h3 { color: var(--emerald-dark); font-size: 1.2em; padding: 10px 5px; margin: 10px 0 5px 0; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .history-header { 
-            background: #fff; padding: 12px 15px; border: 1px solid #c2e5d5; margin-top: 8px; cursor: pointer; 
-            font-weight: 700; display: flex; justify-content: space-between; align-items: center; 
-            border-left: 6px solid var(--emerald-primary); font-size: 14px !important; border-radius: 4px;
-        }
-        .history-header.major-border { border-left-color: var(--gold-accent); }
-        .history-content { display: none; background: white; padding: 10px; border: 1px solid #c2e5d5; border-top: none; border-radius: 0 0 4px 4px; }
-
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-        .profile-card { background: white; width: 90%; max-width: 520px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: fadeIn 0.2s ease-out; max-height: 90vh; display: flex; flex-direction: column; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .profile-header { background: var(--emerald-primary); color: white; padding: 20px; text-align: center; position: relative; border-bottom: 4px solid var(--gold-accent); }
-        .profile-close { position: absolute; top: 12px; right: 15px; color: white; font-size: 20px; cursor: pointer; opacity: 0.8; }
-        .profile-close:hover { opacity: 1; }
-        .profile-name { font-size: 1.4em; font-weight: 800; margin: 5px 0 0; }
-        
-        .profile-body { padding: 20px; overflow-y: auto; }
-        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-        .stat-box { background: var(--emerald-bg); border: 1px solid #bce3d2; border-radius: 8px; padding: 8px 10px; text-align: center; }
-        .stat-label { font-size: 0.72em; text-transform: uppercase; color: #48735e; font-weight: 700; }
-        .stat-value { font-size: 1.15em; font-weight: 800; color: var(--emerald-dark); margin-top: 2px; }
-        
-        .best-score-box { background: #dff5eb; border: 1px solid #a3e2c5; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 12px; }
-        .best-score-title { font-size: 0.72em; text-transform: uppercase; color: var(--emerald-dark); font-weight: 800; }
-        .best-score-val { font-size: 1.05em; font-weight: 800; color: var(--emerald-dark); margin: 3px 0; }
-        .best-score-meta { font-size: 0.78em; color: #48735e; }
-        
-        .form-tracker { text-align: center; margin-bottom: 15px; }
-        .form-title { font-size: 0.72em; text-transform: uppercase; color: #48735e; font-weight: 700; margin-bottom: 8px; }
-        .form-badges { display: flex; justify-content: center; gap: 8px; }
-        
-        .form-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75em; color: white; }
-        .badge-1 { background: var(--gold-accent); color: #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .badge-2 { background: var(--silver-accent); color: #000; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .badge-3 { background: var(--bronze-accent); color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        .badge-other { background: #495057; color: #fff; }
-
-        .results-section { border-top: 1px solid #e0e0e0; padding-top: 12px; }
-        .results-title { font-size: 0.75em; text-transform: uppercase; color: var(--emerald-dark); font-weight: 800; margin-bottom: 6px; text-align: center; }
-        .results-table-container { max-height: 160px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; }
-        .results-table { width: 100%; font-size: 12px; }
-        .results-table th { background: #f4f6f5; color: #333; font-size: 9px; padding: 6px 8px; border-bottom: 1px solid #ddd; }
-        .results-table td { padding: 6px 8px; border-bottom: 1px solid #eee; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--emerald-bg); padding: 20px; color: #1a3326; }
+        .admin-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 1150px; margin: auto; border-top: 6px solid var(--emerald-primary); }
+        .setup-row { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-end; flex-wrap: wrap; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 11px; font-weight: bold; margin-bottom: 5px; color: var(--emerald-dark); text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { padding: 8px; border: 1px solid #bce3d2; border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border-radius: 8px; overflow: hidden; white-space: nowrap; }
+        th { background: var(--emerald-primary); color: white; padding: 12px; font-size: 11px; text-transform: uppercase; }
+        td { padding: 8px; border-bottom: 1px solid #edf2f7; text-align: center; }
+        .score-input { width: 50px; text-align: center; border: 1px solid #bce3d2; padding: 5px; border-radius: 4px; }
+        .stat-input { width: 90px; text-align: center; border: 1px solid #bce3d2; padding: 5px; border-radius: 4px; }
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-add { background: var(--emerald-primary); color: white; }
+        .btn-add:hover { background: var(--emerald-dark); }
+        .btn-export { background: #ffd700; color: #000; }
+        .btn-clear { background: #ff5252; color: white; }
     </style>
 </head>
 <body>
 
-<header class="league-banner">
-    <img src="logo.png" alt="League Logo" class="league-logo" onerror="this.style.display='none'">
-</header>
-
-<div class="main-content">
-    <div id="headerBar" class="section-header">
-        <div class="header-text-group">
-            <h2 id="venueName">⛳ Loading Tour...</h2>
-            <p id="eventDateLabel" style="margin:5px 0 0; font-size:0.85em; opacity:0.85;"></p>
-        </div>
-        <div id="sigStatus"></div>
-    </div>
-
-    <h3>Current Tournament</h3>
-    <div class="scroller">
-        <table>
-            <thead>
-                <tr>
-                    <th>Pos</th>
-                    <th class="icon-col"></th>
-                    <th class="player-col">Player</th>
-                    <th>To Par</th>
-                    <th>R1</th>
-                    <th>R2</th>
-                    <th>Total</th>
-                    <th class="stat-col-fixed">Longest Drive</th>
-                    <th class="stat-col-fixed">Greens in Reg</th>
-                    <th style="background:var(--emerald-dark);">Bonus Pts</th>
-                    <th>Pts</th>
-                    <th style="background:#1b5e20;">Prize (v$)</th>
-                </tr>
-            </thead>
-            <tbody id="liveBody"></tbody>
-        </table>
-    </div>
-
-    <h3>Season Standings</h3>
-    <div class="scroller">
-        <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th></th>
-                    <th class="icon-col"></th>
-                    <th class="player-col">Player</th>
-                    <th>Played</th>
-                    <th>Wins</th>
-                    <th>ACC</th>
-                    <th>Points</th>
-                    <th>Total Earnings (v$)</th>
-                </tr>
-            </thead>
-            <tbody id="seasonBody"></tbody>
-        </table>
-    </div>
-
-    <div id="historyContainer"></div>
-</div>
-
-<div id="profileModal" class="modal-overlay" onclick="closeProfile(event)">
-    <div class="profile-card" onclick="event.stopPropagation()">
-        <div class="profile-header">
-            <span class="profile-close" onclick="closeProfile()">&times;</span>
-            <div id="modalConsole"></div>
-            <div id="modalName" class="profile-name"></div>
-        </div>
-        <div class="profile-body">
-            <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Played</div><div id="modalPlayed" class="stat-value">0</div></div>
-                <div class="stat-box"><div class="stat-label">Won</div><div id="modalWins" class="stat-value">0</div></div>
-                <div class="stat-box"><div class="stat-label">Accumulated</div><div id="modalAcc" class="stat-value">E</div></div>
-                <div class="stat-box"><div class="stat-label">Season Pts</div><div id="modalPts" class="stat-value">0</div></div>
-                <div class="stat-box"><div class="stat-label">Total Earnings</div><div id="modalEarnings" class="stat-value" style="color:#2e7d32;">v$0</div></div>
-                <div class="stat-box"><div class="stat-label">Total Season GIR</div><div id="modalTotalGir" class="stat-value">0</div></div>
-                <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">Max Longest Drive</div><div id="modalMaxLd" class="stat-value">--</div></div>
-            </div>
-            
-            <div class="best-score-box">
-                <div class="best-score-title">⭐ Best Score (To Par)</div>
-                <div id="modalBestVal" class="best-score-val">--</div>
-                <div id="modalBestMeta" class="best-score-meta">No records yet</div>
-            </div>
-
-            <div class="form-tracker">
-                <div class="form-title">Recent Form (Last 5 Weeks)</div>
-                <div id="modalForm" class="form-badges"></div>
-            </div>
-
-            <div class="results-section">
-                <div class="results-title">Weekly Results History</div>
-                <div class="results-table-container">
-                    <table class="results-table">
-                        <thead>
-                            <tr>
-                                <th style="text-align:left;">Date</th>
-                                <th style="text-align:left;">Venue</th>
-                                <th>Pos</th>
-                                <th>To Par</th>
-                                <th>Gross</th>
-                            </tr>
-                        </thead>
-                        <tbody id="modalResultsBody"></tbody>
-                    </table>
-                </div>
+<div class="admin-card">
+    <h2 style="margin-top:0; color:var(--emerald-dark);">⛳ Tournament Admin Panel</h2>
+    <div class="setup-row">
+        <div class="field" style="flex: 2;"><label>Venue Name</label><input type="text" id="venueName" placeholder="Venue Name..." oninput="saveToLocal()"></div>
+        <div class="field" style="flex: 1.5;">
+            <label>Tournament Dates</label>
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <input type="date" id="startDate" oninput="saveToLocal()">
+                <span style="font-size: 10px; font-weight: bold; color: #777;">TO</span>
+                <input type="date" id="endDate" oninput="saveToLocal()">
             </div>
         </div>
+        <div class="field"><label>Prize Fund ($)</label><input type="number" id="purseVal" value="1000000" step="50000" oninput="saveToLocal()"></div>
+        <div class="field"><label>Par</label><input type="number" id="coursePar" value="72" oninput="updateAllRows()"></div>
+        <div class="field"><label>Signature Event</label><input type="checkbox" id="isSig" onchange="saveToLocal()"></div>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; background: #dff5eb; padding: 15px; border-radius: 8px;">
+        <input type="text" id="newPlayerName" placeholder="New Player Name...">
+        <select id="newPlayerConsole">
+            <option value="PS">PlayStation</option>
+            <option value="Xbox">Xbox</option>
+            <option value="PC">PC</option>
+        </select>
+        <button class="btn btn-add" onclick="addPlayer()">Add Player</button>
+        <button class="btn btn-clear" style="margin-left: auto;" onclick="clearAllScores()">Clear All Scores</button>
+    </div>
+
+    <table id="playerTable">
+        <thead>
+            <tr>
+                <th>Del</th>
+                <th style="text-align:left;">Player Name</th>
+                <th>R1</th>
+                <th>R2</th>
+                <th>Total</th>
+                <th>To Par</th>
+                <th>Longest Drive</th>
+                <th>Greens in Reg</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+        <button class="btn" style="background:var(--emerald-primary); color:white;" onclick="refreshTable()">Sort Board</button>
+        <button class="btn btn-export" onclick="exportJSON()">End & Archive Tournament</button>
+        <button class="btn" style="background:#ffa726; color:white;" onclick="undoLastTournament()">Undo Last Export</button>
+        <button class="btn" style="background:#ef5350; color:white;" onclick="resetSeason()">Full Season Reset</button>
+        <button class="btn" style="background:#455a64; color:white;" onclick="document.getElementById('importFile').click()">Import data.json</button>
+        <input type="file" id="importFile" style="display:none;" onchange="importJSON(this)">
     </div>
 </div>
 
 <script>
-    let globalSeasonData = {};
-
     const stdPtsTable = {
         1:500, 2:300, 3:190, 4:135, 5:110, 6:100, 7:90, 8:85, 9:80, 10:75,
         11:70, 12:65, 13:60, 14:57, 15:55, 16:53, 17:51, 18:49, 19:47, 20:45,
@@ -285,7 +99,6 @@
         31:35, 32:33, 33:31, 34:29, 35:27, 36:26, 37:25, 38:24, 39:23, 40:22
     };
 
-    // Official PGA Tour Payout Percentages Schedule (Positions 1 to 40)
     const payoutPercentages = {
         1: 0.180, 2: 0.109, 3: 0.069, 4: 0.049, 5: 0.041, 6: 0.03625, 7: 0.03375, 8: 0.03125, 9: 0.02925, 10: 0.02725,
         11: 0.02525, 12: 0.02325, 13: 0.02125, 14: 0.01925, 15: 0.01825, 16: 0.01725, 17: 0.01625, 18: 0.01525, 19: 0.01425, 20: 0.01325,
@@ -299,15 +112,13 @@
         return Math.max(1, (isSig ? 22 : 16) - (pos - 40));
     }
 
-    function calculatePtsSplit(firstRank, tiedCount, isSig, ldBonus, girBonus) {
+    function calculatePtsInternalSplit(firstRank, tiedCount, isSig, ldBonus, girBonus) {
         let sum = 0;
         for (let r = firstRank; r < firstRank + tiedCount; r++) {
             sum += getSinglePositionPts(r, isSig);
         }
         let baseAvg = sum / tiedCount;
-        let bonus = ldBonus + girBonus;
-        let total = baseAvg + bonus;
-        return { total: Math.round(total * 10) / 10, bonusVal: bonus };
+        return Math.round((baseAvg + ldBonus + girBonus) * 10) / 10;
     }
 
     function calculatePrizeSplit(firstRank, tiedCount, purse) {
@@ -320,246 +131,232 @@
         return Math.round(purse * avgPct);
     }
 
-    function formatCurrency(val) {
-        return "v$" + (val || 0).toLocaleString();
-    }
-
-    async function loadLeaderboard() {
-        try {
-            const response = await fetch('data.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            
-            const purseVal = parseFloat(data.purse) || 1000000;
-            document.getElementById('venueName').innerText = `⛳ ${data.venue || 'Season Event'}`;
-            document.getElementById('eventDateLabel').innerText = `${data.date || ''} • Purse: ${formatCurrency(purseVal)}`;
-            
-            const headerBar = document.getElementById('headerBar');
-            if(data.isSig) {
-                headerBar.classList.add('is-major');
-                document.getElementById('sigStatus').innerHTML = '<span class="major-tag">🏆 SIGNATURE EVENT</span>';
-            }
-            globalSeasonData = data.season || {};
-            renderLeaderboard(data);
-            renderStandings(data.season); 
-            renderHistory(data.history);
-        } catch (e) { console.error("Leaderboard load error:", e); }
-    }
-
-    function getPlatformIcon(p) {
-        const c = (p || "").toLowerCase();
-        if (c.includes('ps')) return '<i class="fa-brands fa-playstation"></i>';
-        if (c.includes('xb')) return '<i class="fa-brands fa-xbox"></i>';
-        return '<i class="fa-brands fa-steam"></i>';
-    }
-
     function parseNumericStat(val) {
         if (val === undefined || val === null) return 0;
         const num = parseFloat(val.toString().replace(/[^0-9.]/g, ''));
         return isNaN(num) ? 0 : num;
     }
 
-    function renderLeaderboard(data) {
-        const lBody = document.getElementById('liveBody');
-        lBody.innerHTML = '';
-        const par = parseInt(data.par) || 72;
-        const purse = parseFloat(data.purse) || 1000000;
+    function exportJSON() {
+        refreshTable();
+        let stored = JSON.parse(localStorage.getItem('golfAdminData')) || {};
+        stored.backupSeason = JSON.parse(JSON.stringify(stored.season || {}));
+        stored.backupHistory = stored.history || "";
         
-        let players = data.players.map(p => {
-            const s = [p.r1, p.r2].map(v => parseInt(v)||0).filter(v => v > 0);
-            const total = s.reduce((a,b) => a+b, 0);
-            const numLd = parseNumericStat(p.ldYardage);
-            const numGir = parseNumericStat(p.girVal);
-            return { ...p, total, toPar: s.length > 0 ? total - (s.length * par) : 999, active: s.length, numLd, numGir };
-        }).sort((a,b) => a.toPar - b.toPar);
+        let currentStandings = [];
+        if (stored.season) {
+            currentStandings = Object.entries(stored.season).map(([name, info]) => ({ name, points: info.points })).sort((a, b) => b.points - a.points);
+        }
+
+        const venueVal = document.getElementById('venueName').value;
+        const sDate = document.getElementById('startDate').value;
+        const eDate = document.getElementById('endDate').value;
+        const dateRange = (sDate && eDate) ? `${sDate} to ${eDate}` : (sDate || eDate || "TBD");
+        const isSig = document.getElementById('isSig').checked;
+        const parVal = parseInt(document.getElementById('coursePar').value);
+        const purseVal = parseFloat(document.getElementById('purseVal').value) || 1000000;
+        
+        const playersForExport = Array.from(document.querySelectorAll('#playerTable tbody tr')).map(row => {
+            const s = [row.querySelector('.r1').value, row.querySelector('.r2').value].map(v => parseInt(v)||0).filter(v => v > 0);
+            const tot = s.reduce((a,b)=>a+b,0);
+            const ldRaw = row.querySelector('.ld-input').value;
+            const girRaw = row.querySelector('.gir-input').value;
+            return { 
+                name: row.querySelector('.p-name').value, 
+                console: row.querySelector('.p-console').value, 
+                r1: row.querySelector('.r1').value, 
+                r2: row.querySelector('.r2').value,
+                total: tot, 
+                ldYardage: ldRaw, 
+                girVal: girRaw,
+                numLd: parseNumericStat(ldRaw),
+                numGir: parseNumericStat(girRaw),
+                toParVal: s.length > 0 ? tot - (s.length * parVal) : 999 
+            };
+        });
 
         let maxLd = 0;
         let maxGir = 0;
-        players.forEach(p => {
-            if (p.active > 0) {
+        playersForExport.forEach(p => {
+            if (p.total > 0) {
                 if (p.numLd > maxLd) maxLd = p.numLd;
                 if (p.numGir > maxGir) maxGir = p.numGir;
             }
         });
 
-        let ldWinnersCount = maxLd > 0 ? players.filter(p => p.active > 0 && p.numLd === maxLd).length : 0;
-        let girWinnersCount = maxGir > 0 ? players.filter(p => p.active > 0 && p.numGir === maxGir).length : 0;
+        let ldWinnersCount = maxLd > 0 ? playersForExport.filter(p => p.total > 0 && p.numLd === maxLd).length : 0;
+        let girWinnersCount = maxGir > 0 ? playersForExport.filter(p => p.total > 0 && p.numGir === maxGir).length : 0;
 
-        players.forEach((p, i) => {
-            if (p.active === 0) return;
-            let firstIdx = i;
-            while (firstIdx > 0 && players[firstIdx - 1].toPar === p.toPar) firstIdx--;
-            
-            let tiedCount = 0;
-            while (firstIdx + tiedCount < players.length && players[firstIdx + tiedCount].toPar === p.toPar) {
-                tiedCount++;
-            }
-
-            const isTied = tiedCount > 1;
-            const rankLabel = isTied ? `T${firstIdx + 1}` : i + 1;
-            
-            const isLdWinner = maxLd > 0 && p.numLd === maxLd;
-            const isGirWinner = maxGir > 0 && p.numGir === maxGir;
-
-            let ldBonusVal = isLdWinner ? (50 / ldWinnersCount) : 0;
-            let girBonusVal = isGirWinner ? (50 / girWinnersCount) : 0;
-
-            let ldDisplay = p.numLd > 0 ? `${p.numLd.toFixed(1)} yds` : '-';
-            let girDisplay = p.numGir > 0 ? p.numGir : '-';
-
-            const ptsData = calculatePtsSplit(firstIdx + 1, tiedCount, data.isSig, ldBonusVal, girBonusVal);
-            const prizeMoney = calculatePrizeSplit(firstIdx + 1, tiedCount, purse);
-            const toParDisp = p.toPar === 0 ? "E" : (p.toPar > 0 ? `+${p.toPar}` : p.toPar);
-            
-            lBody.innerHTML += `<tr>
-                <td>${rankLabel}</td>
-                <td class="icon-col">${getPlatformIcon(p.console)}</td>
-                <td class="player-col">${p.name}</td>
-                <td class="to-par-cell ${p.toPar < 0 ? 'under-par' : (p.toPar === 0 ? 'even-par' : '')}">${toParDisp}</td>
-                <td>${p.r1||'-'}</td>
-                <td>${p.r2||'-'}</td>
-                <td>${p.total}</td>
-                <td class="${isLdWinner ? 'stat-winner' : ''}">${ldDisplay}</td>
-                <td class="${isGirWinner ? 'stat-winner' : ''}">${girDisplay}</td>
-                <td style="color:var(--emerald-dark); font-weight:bold;">${ptsData.bonusVal > 0 ? `+${Math.round(ptsData.bonusVal * 10) / 10}` : '-'}</td>
-                <td style="color:var(--emerald-dark); font-weight:bold;">${ptsData.total}</td>
-                <td class="prize-cell">${formatCurrency(prizeMoney)}</td>
-            </tr>`;
-        });
-    }
-
-    function renderStandings(seasonData) {
-        const sBody = document.getElementById('seasonBody');
-        if (!sBody || !seasonData) return;
-        const sorted = Object.entries(seasonData).map(([name, info]) => ({ name, ...info })).sort((a, b) => b.points - a.points);
-        sBody.innerHTML = '';
-        sorted.forEach((p, i) => {
-            const currentRank = i + 1;
-            const previousRank = parseInt(p.prevRank) || currentRank;
-            let trendHtml = '<span style="color:#aaa">●</span>';
-            if (currentRank < previousRank) trendHtml = '<span class="rank-up">▲</span>';
-            else if (currentRank > previousRank) trendHtml = '<span class="rank-down">▼</span>';
-
-            const accVal = p.acc || 0;
-            const accDisp = accVal === 0 ? "E" : (accVal > 0 ? `+${accVal}` : accVal);
-            
-            sBody.innerHTML += `<tr>
-                <td>${currentRank}</td>
-                <td>${trendHtml}</td>
-                <td class="icon-col">${getPlatformIcon(p.console)}</td>
-                <td class="player-col">
-                    <a class="player-link" onclick="openProfile('${p.name.replace(/'/g, "\\'")}')">${p.name}</a>
-                </td>
-                <td>${p.eventsPlayed || 0}</td>
-                <td style="font-weight:bold; color:var(--under-red);">${p.wins || 0}</td>
-                <td class="${accVal < 0 ? 'under-par' : ''}">${accDisp}</td>
-                <td style="color:var(--emerald-dark); font-weight:bold;">${Math.round((p.points || 0) * 10) / 10}</td>
-                <td class="prize-cell">${formatCurrency(p.earnings || 0)}</td>
-            </tr>`;
-        });
-    }
-
-    function openProfile(playerName) {
-        const p = globalSeasonData[playerName];
-        if (!p) return;
-
-        document.getElementById('modalConsole').innerHTML = getPlatformIcon(p.console);
-        document.getElementById('modalName').innerText = playerName;
-        document.getElementById('modalPlayed').innerText = p.eventsPlayed || 0;
-        document.getElementById('modalWins').innerText = p.wins || 0;
+        let season = stored.season || {};
+        let histRows = "";
+        const processedPlayers = [...playersForExport].sort((a,b) => a.toParVal - b.toParVal);
         
-        const accVal = p.acc || 0;
-        document.getElementById('modalAcc').innerText = accVal === 0 ? "E" : (accVal > 0 ? `+${accVal}` : accVal);
-        document.getElementById('modalPts').innerText = Math.round((p.points || 0) * 10) / 10;
-        document.getElementById('modalEarnings').innerText = formatCurrency(p.earnings || 0);
+        processedPlayers.forEach((p, i) => {
+            if (p.total > 0) {
+                let firstIdx = i;
+                while (firstIdx > 0 && processedPlayers[firstIdx - 1].toParVal === p.toParVal) firstIdx--;
+                
+                let tiedCount = 0;
+                while (firstIdx + tiedCount < processedPlayers.length && processedPlayers[firstIdx + tiedCount].toParVal === p.toParVal) {
+                    tiedCount++;
+                }
 
-        const maxLdVal = p.maxLd || 0;
-        document.getElementById('modalMaxLd').innerText = maxLdVal > 0 ? `${maxLdVal.toFixed(1)} yds` : '--';
-        document.getElementById('modalTotalGir').innerText = p.totalGir || 0;
+                const isTied = tiedCount > 1;
+                const actualRank = firstIdx + 1;
 
-        let bestRec = null;
-        const historyArr = p.history || [];
+                if (!season[p.name]) {
+                    season[p.name] = { points: 0, console: p.console, eventsPlayed: 0, wins: 0, acc: 0, form: [], history: [], bestToPar: 999, bestTotal: 999, maxLd: 0, totalGir: 0, earnings: 0 };
+                }
+                
+                const oldRankIndex = currentStandings.findIndex(s => s.name === p.name);
+                season[p.name].prevRank = oldRankIndex !== -1 ? oldRankIndex + 1 : currentStandings.length + 1;
 
-        if (historyArr.length > 0) {
-            bestRec = [...historyArr].sort((a, b) => {
-                if (a.toPar !== b.toPar) return a.toPar - b.toPar;
-                return a.gross - b.gross;
-            })[0];
-        }
+                if (firstIdx === 0) season[p.name].wins = (season[p.name].wins || 0) + 1;
+                season[p.name].acc = (season[p.name].acc || 0) + p.toParVal;
+                
+                if (p.numLd > (season[p.name].maxLd || 0)) {
+                    season[p.name].maxLd = p.numLd;
+                }
+                season[p.name].totalGir = (season[p.name].totalGir || 0) + p.numGir;
 
-        if (bestRec) {
-            const tp = bestRec.toPar === 0 ? "E" : (bestRec.toPar > 0 ? `+${bestRec.toPar}` : bestRec.toPar);
-            document.getElementById('modalBestVal').innerText = `${bestRec.gross} (${tp})`;
-            document.getElementById('modalBestMeta').innerText = `@ ${bestRec.venue || 'Tournament'} (${bestRec.date || 'N/A'})`;
-        } else if (p.bestToPar !== undefined && p.bestToPar < 999) {
-            const tp = p.bestToPar === 0 ? "E" : (p.bestToPar > 0 ? `+${p.bestToPar}` : p.bestToPar);
-            document.getElementById('modalBestVal').innerText = `${p.bestTotal} (${tp})`;
-            document.getElementById('modalBestMeta').innerText = `@ ${p.bestVenue || 'Tournament'} (${p.bestDate || 'N/A'})`;
-        } else {
-            document.getElementById('modalBestVal').innerText = "--";
-            document.getElementById('modalBestMeta').innerText = "No records yet";
-        }
+                const isLdWinner = maxLd > 0 && p.numLd === maxLd;
+                const isGirWinner = maxGir > 0 && p.numGir === maxGir;
+                const ldBonus = isLdWinner ? (50 / ldWinnersCount) : 0;
+                const girBonus = isGirWinner ? (50 / girWinnersCount) : 0;
 
-        const formDiv = document.getElementById('modalForm');
-        formDiv.innerHTML = '';
-        const formArr = p.form || [];
-        if (formArr.length === 0) {
-            formDiv.innerHTML = '<span style="font-size:0.85em; color:#888;">No recent events</span>';
-        } else {
-            formArr.forEach(pos => {
-                let badgeClass = 'badge-other';
-                if (pos === 1) badgeClass = 'badge-1';
-                else if (pos === 2) badgeClass = 'badge-2';
-                else if (pos === 3) badgeClass = 'badge-3';
-                formDiv.innerHTML += `<div class="form-badge ${badgeClass}">${pos}</div>`;
-            });
-        }
+                const gainedPts = calculatePtsInternalSplit(actualRank, tiedCount, isSig, ldBonus, girBonus);
+                season[p.name].points = Math.round(((season[p.name].points || 0) + gainedPts) * 10) / 10;
+                
+                const prizeCash = calculatePrizeSplit(actualRank, tiedCount, purseVal);
+                season[p.name].earnings = (season[p.name].earnings || 0) + prizeCash;
 
-        const rBody = document.getElementById('modalResultsBody');
-        rBody.innerHTML = '';
+                season[p.name].eventsPlayed = (season[p.name].eventsPlayed || 0) + 1;
+                
+                if (!season[p.name].form) season[p.name].form = [];
+                season[p.name].form.unshift(actualRank);
+                if (season[p.name].form.length > 5) season[p.name].form.pop();
 
-        if (historyArr.length === 0) {
-            rBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">No tournament history logged yet</td></tr>';
-        } else {
-            historyArr.forEach(res => {
-                const tpDisp = res.toPar === 0 ? "E" : (res.toPar > 0 ? `+${res.toPar}` : res.toPar);
-                rBody.innerHTML += `<tr>
-                    <td style="text-align:left;">${res.date}</td>
-                    <td style="text-align:left; font-weight:600;">${res.venue}</td>
-                    <td style="font-weight:700;">${res.pos}</td>
-                    <td class="${res.toPar < 0 ? 'under-par' : ''}">${tpDisp}</td>
-                    <td style="font-weight:700;">${res.gross}</td>
-                </tr>`;
-            });
-        }
+                if (!season[p.name].history) season[p.name].history = [];
+                season[p.name].history.unshift({
+                    date: dateRange,
+                    venue: venueVal || "Tournament",
+                    gross: p.total,
+                    toPar: p.toParVal,
+                    pos: isTied ? `T${actualRank}` : `${actualRank}`
+                });
 
-        document.getElementById('profileModal').style.display = 'flex';
+                const currentBestToPar = season[p.name].bestToPar !== undefined ? season[p.name].bestToPar : 999;
+                const isNewBestToPar = p.toParVal < currentBestToPar;
+                const isTieTiebreaker = (p.toParVal === currentBestToPar) && (p.total < (season[p.name].bestTotal || 999));
+
+                if (isNewBestToPar || isTieTiebreaker) {
+                    season[p.name].bestToPar = p.toParVal;
+                    season[p.name].bestTotal = p.total;
+                    season[p.name].bestVenue = venueVal || "Tournament";
+                    season[p.name].bestDate = dateRange;
+                }
+
+                const tp = p.toParVal===0?'E':(p.toParVal>0?'+'+p.toParVal:p.toParVal);
+                const rank = isTied ? `T${actualRank}` : actualRank;
+                histRows += `<tr><td>${rank}</td><td>${p.name}</td><td>${tp}</td><td>${p.total}</td></tr>`;
+            }
+        });
+
+        const finalData = { 
+            ...stored, 
+            venue: venueVal, date: dateRange, startDate: sDate, endDate: eDate, par: parVal, purse: purseVal, isSig: isSig, players: playersForExport, season, 
+            history: (stored.history || "") + `<div class="history-header" onclick="toggleHistory(this)">${venueVal} (${dateRange}) ${isSig?'🏆':''}</div><div class="history-content"><table><tr><th>Pos</th><th>Player</th><th>Par</th><th>Tot</th></tr>${histRows}</table></div>` 
+        };
+        
+        localStorage.setItem('golfAdminData', JSON.stringify(finalData));
+        const blob = new Blob([JSON.stringify(finalData, null, 2)], {type : 'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'data.json'; a.click();
+        alert("Archive Complete!");
     }
 
-    function closeProfile() {
-        document.getElementById('profileModal').style.display = 'none';
+    function addPlayer(p = {}) {
+        const name = p.name || document.getElementById('newPlayerName').value;
+        const consoleVal = p.console || document.getElementById('newPlayerConsole').value;
+        if (!name) return;
+        const tbody = document.querySelector('#playerTable tbody');
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td><button style="color:red; background:none; border:none; cursor:pointer;" onclick="this.closest('tr').remove(); saveToLocal();">✖</button></td>
+            <td style="text-align:left;"><input type="text" class="p-name" value="${name}" style="border:none; font-weight:bold; width:180px; background:transparent;" oninput="saveToLocal()"><input type="hidden" class="p-console" value="${consoleVal}"></td>
+            <td><input type="number" class="score-input r1" value="${p.r1||''}" oninput="updateRow(this)"></td>
+            <td><input type="number" class="score-input r2" value="${p.r2||''}" oninput="updateRow(this)"></td>
+            <td><input type="text" class="total" value="0" readonly style="width:40px; border:none; text-align:center; background:transparent; font-weight:bold;"></td>
+            <td><input type="text" class="topar" value="E" readonly style="width:40px; border:none; text-align:center; background:transparent; font-weight:bold;"></td>
+            <td><input type="text" class="stat-input ld-input" placeholder="e.g. 312.5" value="${p.ldYardage !== undefined ? p.ldYardage : ''}" oninput="saveToLocal()"></td>
+            <td><input type="text" class="stat-input gir-input" placeholder="e.g. 14" value="${p.girVal !== undefined ? p.girVal : ''}" oninput="saveToLocal()"></td>
+        `;
+        document.getElementById('newPlayerName').value = ''; updateRow(row.querySelector('.r1')); saveToLocal();
     }
 
-    function renderHistory(historyHTML) {
-        const hDiv = document.getElementById('historyContainer');
-        if (hDiv && historyHTML) { 
-            let temp = document.createElement('div');
-            temp.innerHTML = historyHTML.replace(/>\+999</g, '>--<');
-            temp.querySelectorAll('.history-header').forEach(header => { if (header.innerText.includes('🏆')) header.classList.add('major-border'); });
-            hDiv.innerHTML = `<h3>Weekly History</h3>` + temp.innerHTML; 
+    function updateRow(input) {
+        const row = input.closest('tr');
+        const par = parseInt(document.getElementById('coursePar').value) || 72;
+        const s = [row.querySelector('.r1').value, row.querySelector('.r2').value].map(v => parseInt(v)||0).filter(v => v > 0);
+        const total = s.reduce((a, b) => a + b, 0);
+        const toPar = s.length > 0 ? total - (s.length * par) : 0;
+        row.querySelector('.total').value = total || 0;
+        row.querySelector('.topar').value = toPar === 0 ? "E" : (toPar > 0 ? `+${toPar}` : toPar);
+        saveToLocal();
+    }
+
+    function updateAllRows() { document.querySelectorAll('.score-input.r1').forEach(i => updateRow(i)); }
+
+    function saveToLocal() {
+        const players = Array.from(document.querySelectorAll('#playerTable tbody tr')).map(row => ({
+            name: row.querySelector('.p-name').value, console: row.querySelector('.p-console').value,
+            r1: row.querySelector('.r1').value, r2: row.querySelector('.r2').value,
+            ldYardage: row.querySelector('.ld-input').value, girVal: row.querySelector('.gir-input').value
+        }));
+        const existing = JSON.parse(localStorage.getItem('golfAdminData')) || {};
+        localStorage.setItem('golfAdminData', JSON.stringify({
+            ...existing, venue: document.getElementById('venueName').value, startDate: document.getElementById('startDate').value, endDate: document.getElementById('endDate').value, par: document.getElementById('coursePar').value, purse: document.getElementById('purseVal').value, isSig: document.getElementById('isSig').checked, players
+        }));
+    }
+
+    function refreshTable() {
+        const tbody = document.querySelector('#playerTable tbody');
+        const rows = Array.from(tbody.rows).sort((a, b) => {
+            const getVal = r => {
+                const val = r.querySelector('.topar').value;
+                if (val === "E") return 0;
+                return parseInt(val.replace('+', '')) || 999;
+            };
+            return getVal(a) - getVal(b);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+    }
+
+    function clearAllScores() {
+        if(!confirm("Wipe scores?")) return;
+        document.querySelectorAll('#playerTable tbody tr').forEach(row => {
+            row.querySelector('.r1').value = ''; row.querySelector('.r2').value = '';
+            row.querySelector('.ld-input').value = ''; row.querySelector('.gir-input').value = '';
+            updateRow(row.querySelector('.r1'));
+        });
+        saveToLocal();
+    }
+
+    function resetSeason() { if (confirm("Delete ALL history?")) { localStorage.clear(); location.reload(); } }
+
+    function undoLastTournament() { 
+        let s = JSON.parse(localStorage.getItem('golfAdminData')); 
+        if(confirm("Undo last export?")) { s.season = s.backupSeason; s.history = s.backupHistory; localStorage.setItem('golfAdminData', JSON.stringify(s)); location.reload(); } 
+    }
+
+    function importJSON(input) { const reader = new FileReader(); reader.onload = e => { const data = JSON.parse(e.target.result); localStorage.setItem('golfAdminData', JSON.stringify(data)); location.reload(); }; reader.readAsText(input.files[0]); }
+
+    window.onload = () => {
+        const d = JSON.parse(localStorage.getItem('golfAdminData'));
+        if(d) {
+            document.getElementById('venueName').value = d.venue||''; document.getElementById('startDate').value = d.startDate||''; document.getElementById('endDate').value = d.endDate||''; document.getElementById('coursePar').value = d.par||72; document.getElementById('purseVal').value = d.purse||1000000; document.getElementById('isSig').checked = d.isSig||false;
+            if(d.players) d.players.forEach(p => addPlayer(p));
         }
-    }
-
-    function toggleHistory(header) {
-        const content = header.nextElementSibling;
-        const isVisible = content.style.display === "block";
-        document.querySelectorAll('.history-content').forEach(c => c.style.display = "none");
-        content.style.display = isVisible ? "none" : "block";
-    }
-
-    window.onload = loadLeaderboard;
+    };
 </script>
 </body>
 </html>
