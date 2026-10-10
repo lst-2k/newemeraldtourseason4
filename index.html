@@ -78,29 +78,38 @@
         
         .scroller { width: 100%; overflow-x: auto; background: white; margin-bottom: 25px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-        th { background: var(--emerald-primary); color: white; padding: 12px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+        th { background: var(--emerald-primary); color: white !important; padding: 12px 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px 8px; border-bottom: 1px solid #e1efe8; text-align: center; }
         
         .icon-col { width: 30px; text-align: center; padding-right: 0; }
         
-        /* Updated Player Column Style to White */
-        .player-col { text-align: left !important; padding-left: 8px; font-weight: 700; color: #ffffff !important; white-space: nowrap; }
+        /* Restored Player Cells to Dark Text */
+        .player-col { text-align: left !important; padding-left: 8px; font-weight: 700; color: #1a3326 !important; white-space: nowrap; }
         
         .stat-col-fixed { width: 120px; min-width: 120px; background: var(--emerald-dark); }
         
         .stat-winner { font-weight: 800 !important; font-size: 1.05em; color: var(--emerald-dark) !important; }
         .prize-cell { color: #2e7d32; font-weight: bold; }
 
-        /* Updated Player Profile Link to White */
+        /* Player Profile Link Restored to Dark Emerald */
         .player-link { 
-            color: #ffffff !important; 
+            color: var(--emerald-dark) !important; 
             text-decoration: underline; 
             font-weight: 700; 
             cursor: pointer; 
-            transition: opacity 0.15s ease-in-out;
+            transition: color 0.15s ease-in-out;
         }
-        .player-link:hover { opacity: 0.85; }
+        .player-link:hover { color: var(--emerald-primary) !important; }
         
+        /* Qualification (Q) Tag Styling */
+        .q-badge {
+            color: #d97706;
+            font-weight: 900;
+            font-size: 0.85em;
+            margin-left: 6px;
+            letter-spacing: 0.5px;
+        }
+
         .fa-brands { font-size: 1.1em; vertical-align: middle; }
         .fa-playstation { color: var(--ps-blue); } 
         .fa-xbox { color: var(--xbox-green); } 
@@ -183,7 +192,7 @@
                 <tr>
                     <th>Pos</th>
                     <th class="icon-col"></th>
-                    <th class="player-col">Player</th>
+                    <th class="player-col" style="color: white !important;">Player</th>
                     <th>To Par</th>
                     <th>R1</th>
                     <th>R2</th>
@@ -207,7 +216,7 @@
                     <th>Rank</th>
                     <th></th>
                     <th class="icon-col"></th>
-                    <th class="player-col">Player</th>
+                    <th class="player-col" style="color: white !important;">Player</th>
                     <th>Played</th>
                     <th>Wins</th>
                     <th>ACC</th>
@@ -436,14 +445,22 @@
     function renderStandings(seasonData) {
         const sBody = document.getElementById('seasonBody');
         if (!sBody || !seasonData) return;
+        
         const sorted = Object.entries(seasonData).map(([name, info]) => ({ name, ...info })).sort((a, b) => b.points - a.points);
         sBody.innerHTML = '';
+        
+        const totalPlayers = sorted.length;
+        const qualLimit = Math.ceil(totalPlayers / 2);
+
         sorted.forEach((p, i) => {
             const currentRank = i + 1;
             const previousRank = parseInt(p.prevRank) || currentRank;
             let trendHtml = '<span style="color:#aaa">●</span>';
             if (currentRank < previousRank) trendHtml = '<span class="rank-up">▲</span>';
             else if (currentRank > previousRank) trendHtml = '<span class="rank-down">▼</span>';
+
+            const isQualified = currentRank <= qualLimit;
+            const qBadgeHtml = isQualified ? '<span class="q-badge">(Q)</span>' : '';
 
             const accVal = p.acc || 0;
             const accDisp = accVal === 0 ? "E" : (accVal > 0 ? `+${accVal}` : accVal);
@@ -453,7 +470,7 @@
                 <td>${trendHtml}</td>
                 <td class="icon-col">${getPlatformIcon(p.console)}</td>
                 <td class="player-col">
-                    <a class="player-link" onclick="openProfile('${p.name.replace(/'/g, "\\'")}')">${p.name}</a>
+                    <a class="player-link" onclick="openProfile('${p.name.replace(/'/g, "\\'")}')">${p.name}</a>${qBadgeHtml}
                 </td>
                 <td>${p.eventsPlayed || 0}</td>
                 <td style="font-weight:bold; color:var(--under-red);">${p.wins || 0}</td>
